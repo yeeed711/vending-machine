@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap");
-@import url("/css/reset.css");
-@import url("/css/variable.css");
+@import url("./css/reset.css");
+@import url("./css/variable.css");
 
 body {
   font-family: "Noto Sans KR", sans-serif;
@@ -215,7 +215,7 @@ body {
 
 .sold-out::after {
   content: "";
-  background-image: url("/img/sold_out.png");
+  background-image: url("./img/sold_out.png");
   background-position: center;
   background-size: cover;
   border-radius: 10px;
