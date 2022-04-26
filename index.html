@@ -10,10 +10,11 @@
 </head>
 
 <body>
-    <h1 class="logo">
+    <header class="logo">
+        <h1 class="ir">vending machine</h1>
         <img src="./img/Logo_img.png" alt="cola_cola">
-    </h1>
-    <div class="wrapper">
+    </header>
+    <main class="wrapper">
         <section class="vending-machine">
             <h2 class="ir">자판기 화면 입니다</h2>
             <ul class="vending-items">
@@ -62,13 +63,18 @@
             </ul>
             <section class="buy-info">
                 <h2 class="ir">구매 정보 화면 입니다</h2>
+
                 <div class="buy-balance">잔액 :
                     <span>원</span>
                 </div>
                 <button type="button" class="return__btn">거스름돈 반환</button>
 
-                <input type="number" placeholder="입금액 입력" class="put__money">
+
+                <label for="int-put" class="ir">입금액 입력</label>
+                <input id="int-put" type="number" placeholder="입금액 입력" class="put__money">
                 <button type="button" class="put__btn">입금</button>
+
+
 
                 <strong class="ir">선택한 음료 목록</strong>
                 <ul class="drink-items">
@@ -88,10 +94,11 @@
                     </li>
                 </ul>
                 <button type="button" class="get__btn">획득</button>
+
             </section>
         </section>
 
-        <section class="my-info">
+        <section>
             <h2 class="ir">나의 정보 화면입니다</h2>
             <div class="mymoney-info">
                 <div class="mymoney">소지금 :
@@ -129,12 +136,11 @@
                             <span class="num__counter">5</span>
                         </button>
                     </li>
-
                 </ul>
                 <strong class="total__title">총금액 : 9,000 원</strong>
             </div>
         </section>
-    </div>
+    </main>
 </body>
 
 </html>
