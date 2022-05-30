@@ -42,6 +42,12 @@ body {
   position: relative;
 }
 
+.vending-items .item__btn > img,
+strong,
+span {
+  pointer-events: none;
+}
+
 .vending-items .item__title {
   display: block;
   font-size: var(--font-size);
