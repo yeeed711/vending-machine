@@ -227,7 +227,7 @@ body {
 }
 
 .sold-out::after {
-  content: "";
+  content: attr(data-after);
   background-image: url("./img/sold_out.png");
   background-position: center;
   background-size: cover;
