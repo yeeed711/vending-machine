@@ -1,4 +1,6 @@
-const items = [
+import {} from "./money.js";
+
+let dataBase = [
   {
     name: "Original_cola",
     img: "./img/cola.svg",
@@ -36,26 +38,30 @@ const items = [
     count: 3,
   },
 ];
+
 const drinkItems = document.querySelector(".vending-items");
 const seletItems = document.querySelector(".drink-items");
 
+// 장바구니
+let cart = [];
+// -----------------------------------------------------------------------------------------------
 //cola item 렌더링
 function rederColaItem() {
   //가상돔
   const frag = document.createDocumentFragment();
 
-  items.forEach((items) => {
+  dataBase.forEach((i) => {
     const drinkItemLi = document.createElement("li");
     const drinkItemBtn = document.createElement("button");
     const drinkItemImg = document.createElement("img");
     drinkItemBtn.setAttribute("class", "item__btn");
-    drinkItemImg.setAttribute("src", `${items.img}`);
+    drinkItemImg.setAttribute("src", `${i.img}`);
     const drinkItemTitle = document.createElement("strong");
     drinkItemTitle.setAttribute("class", "item__title");
-    drinkItemTitle.innerText = `${items.name}`;
+    drinkItemTitle.innerText = `${i.name}`;
     const drinkItemPrice = document.createElement("span");
     drinkItemPrice.setAttribute("class", "price");
-    drinkItemPrice.innerText = `${items.price}원`;
+    drinkItemPrice.innerText = `${i.price}원`;
     drinkItemBtn.append(drinkItemImg, drinkItemTitle, drinkItemPrice);
     drinkItemLi.append(drinkItemBtn);
     drinkItems.append(drinkItemLi);
@@ -63,37 +69,44 @@ function rederColaItem() {
   });
   drinkItems.append(frag);
 }
-rederColaItem(); //items 렌더링
+rederColaItem();
+
 const newLi = drinkItems.querySelectorAll("li");
-
-let cart = [];
-
+// -----------------------------------------------------------------------------------------------
 //cola 선택시 카트에 담기 (아이템 새로 생성)
 function itemMove(e) {
+  let drinkTitle = e.target.childNodes[1].innerText;
+  let drinkItemImgSrc = e.target.childNodes[0].src;
+  // 품절표시 추가하는 부분
+  dataBase.forEach((item) => {
+    if (item.name == drinkTitle) {
+      if (item.count == 0) {
+        return;
+      }
+      item.count--;
+    }
+    if (item.count <= 0) {
+      e.target.classList.add("sold-out");
+    }
+  });
   //카트 내 중복아이템 감지
+  // check 변수로 중복아이템이 있는지 확인 후 아이템 추가
   let check = false;
-  for (let i = 0; i < cart.length; i++) {
-    //카트에 중복되는 아이템이 있을때 카운트를 증가시키고 렌더링안됨
-    if (cart[i].name == e.target.childNodes[1].innerText) {
-      cart[i].count++;
+  cart.forEach((item) => {
+    //카트에 중복되는 아이템이 있을때 카운트를 증가
+    if (item.name == drinkTitle) {
+      if (item.cartCount == 3) {
+        return;
+      }
+      item.cartCount++;
       check = true;
       let arr = document.querySelectorAll(".drink-items > li > button");
-      overlapCheck(arr, cart[i]);
+      // 중복제거 함수
+      overlapCheck(arr, item);
+      console.log(cart);
+      console.log(dataBase); //왜 품절표시가 바로나오는지? 흠...
     }
-  }
-
-  function overlapCheck(arr, item) {
-    // arr = 중복을 찾을 배열, item = 중복인지 확인하는 요소
-    for (let j = 0; j < arr.length; j++) {
-      if (item.name == arr[j].childNodes[1].innerText) {
-        arr[j].childNodes[2].innerText = item.count;
-        //클릭한 아이템이 계속 맨 위로 올라오게
-        let temp = arr[j].parentElement;
-        arr[j].parentElement.remove();
-        seletItems.prepend(temp);
-      }
-    }
-  }
+  });
 
   //카드에 아무것도 없거나, 같은 이름을 가진 아이템이 없을때
   if (check == false) {
@@ -102,10 +115,10 @@ function itemMove(e) {
     cartItemBtn.addEventListener("click", countDecrease);
     const cartItemImg = document.createElement("img");
     cartItemImg.className = "item__img";
-    cartItemImg.setAttribute("src", e.target.childNodes[0].src);
+    cartItemImg.setAttribute("src", drinkItemImgSrc);
     const cartItemTitle = document.createElement("strong");
     cartItemTitle.className = "item__title";
-    cartItemTitle.innerText = e.target.childNodes[1].innerText;
+    cartItemTitle.innerText = drinkTitle;
     const cartItemCount = document.createElement("span");
     cartItemCount.className = "num__counter";
     cartItemCount.innerText = 1;
@@ -115,20 +128,35 @@ function itemMove(e) {
     seletItems.prepend(cartItemLi);
     //카트에 객체형태로 담기
     cart.push({
-      name: e.target.childNodes[1].innerText,
-      imgSrc: e.target.childNodes[0].src,
-      count: cartItemCount.innerText,
+      name: drinkTitle,
+      imgSrc: drinkItemImgSrc,
+      cartCount: 1,
     });
   }
 }
 
+// -----------------------------------------------------------------------------------------------
+function overlapCheck(arr, item) {
+  // arr = 중복을 찾을 배열, item = 중복인지 확인하는 요소
+  for (let j = 0; j < arr.length; j++) {
+    if (item.name == arr[j].childNodes[1].innerText) {
+      arr[j].childNodes[2].innerText = item.cartCount;
+      //클릭한 아이템이 계속 맨 위로 올라오게
+      let temp = arr[j].parentElement;
+      temp.remove();
+      seletItems.prepend(temp);
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------------------------
 function countDecrease(e) {
   cart.forEach((item, idx) => {
     if (e.target.childNodes[1].innerText == item.name) {
-      item.count--;
-      e.target.childNodes[2].innerText = item.count;
+      item.cartCount--;
+      e.target.childNodes[2].innerText = item.cartCount;
     }
-    if (item.count <= 0) {
+    if (item.cartCount <= 0) {
       e.target.parentElement.remove();
       cart.splice(idx, 1);
     }
