@@ -44,7 +44,7 @@ const seletItems = document.querySelector(".drink-items");
 
 // 장바구니
 let cart = [];
-// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 //cola item 렌더링
 function rederColaItem() {
   //가상돔
@@ -72,11 +72,11 @@ function rederColaItem() {
 rederColaItem();
 
 const newLi = drinkItems.querySelectorAll("li");
-// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 //cola 선택시 카트에 담기 (아이템 새로 생성)
-function itemMove(e) {
-  let drinkTitle = e.target.childNodes[1].innerText;
-  let drinkItemImgSrc = e.target.childNodes[0].src;
+function itemMove(event) {
+  let drinkTitle = event.target.childNodes[1].innerText;
+  let drinkItemImgSrc = event.target.childNodes[0].src;
   // 품절표시 추가하는 부분
   dataBase.forEach((item) => {
     if (item.name == drinkTitle) {
@@ -84,9 +84,13 @@ function itemMove(e) {
         return;
       }
       item.count--;
-    }
-    if (item.count <= 0) {
-      e.target.classList.add("sold-out");
+      console.log(item.count);
+
+      if (item.count <= 0) {
+        event.target.setAttribute("class", "item__btn");
+        event.target.setAttribute("disabled", true);
+        console.log(item.count);
+      }
     }
   });
   //카트 내 중복아이템 감지
@@ -95,16 +99,11 @@ function itemMove(e) {
   cart.forEach((item) => {
     //카트에 중복되는 아이템이 있을때 카운트를 증가
     if (item.name == drinkTitle) {
-      if (item.cartCount == 3) {
-        return;
-      }
-      item.cartCount++;
+      item.count++;
       check = true;
       let arr = document.querySelectorAll(".drink-items > li > button");
       // 중복제거 함수
       overlapCheck(arr, item);
-      console.log(cart);
-      console.log(dataBase); //왜 품절표시가 바로나오는지? 흠...
     }
   });
 
@@ -130,17 +129,17 @@ function itemMove(e) {
     cart.push({
       name: drinkTitle,
       imgSrc: drinkItemImgSrc,
-      cartCount: 1,
+      count: cartItemCount.innerText,
     });
   }
 }
 
-// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 function overlapCheck(arr, item) {
   // arr = 중복을 찾을 배열, item = 중복인지 확인하는 요소
   for (let j = 0; j < arr.length; j++) {
     if (item.name == arr[j].childNodes[1].innerText) {
-      arr[j].childNodes[2].innerText = item.cartCount;
+      arr[j].childNodes[2].innerText = item.count;
       //클릭한 아이템이 계속 맨 위로 올라오게
       let temp = arr[j].parentElement;
       temp.remove();
@@ -149,14 +148,14 @@ function overlapCheck(arr, item) {
   }
 }
 
-// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 function countDecrease(e) {
   cart.forEach((item, idx) => {
     if (e.target.childNodes[1].innerText == item.name) {
-      item.cartCount--;
-      e.target.childNodes[2].innerText = item.cartCount;
+      item.count--;
+      e.target.childNodes[2].innerText = item.count;
     }
-    if (item.cartCount <= 0) {
+    if (item.count <= 0) {
       e.target.parentElement.remove();
       cart.splice(idx, 1);
     }
