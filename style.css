@@ -94,7 +94,13 @@ span {
   box-sizing: border-box;
 }
 
-.buy-info .buy-balance span {
+.buy-info .buy-balance span:first-child {
+  display: inline-block;
+  width: 70%;
+  text-align: right;
+}
+
+.buy-info .buy-balance span:last-child {
   float: right;
 }
 
@@ -243,6 +249,7 @@ span {
   position: absolute;
   top: 0;
   left: 0;
+  cursor: not-allowed;
 }
 
 /* ========== 반응형 ========== */
