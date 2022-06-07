@@ -192,3 +192,29 @@ function totalPrice() {
   let total = sumTotal.toLocaleString("ko-KR");
   totalMoney.innerHTML = `총금액 : ${total} 원`;
 }
+
+// 입금액 충전하는 함수
+function putMoney() {
+  let putMoney = document.querySelector(".put__money");
+  myMoneyValue = parseInt(myMoney.innerText.slice(0, -1));
+  // 입금액에 아무 값도 넣지 않은 경우
+  if (putMoney.value == "") {
+    alert("입금액을 입력해주세요");
+    putMoney.focus(); // 포커스를 입금액 입력 창으로
+    return;
+    // 입금액이 1000 보다 작은 경우
+  } else if (putMoney.value < 1000) {
+    alert("1000원 이상의 금액을 입력해주세요");
+    putMoney.focus();
+    return;
+    // 입금액이 소지금보다 큰 경우
+  } else if (putMoney.value > myMoneyValue) {
+    alert("소지금보다 큰 금액은 입력 하실 수 없습니다");
+    putMoney.focus();
+    return;
+  }
+  // 입금액에 입력한 금액이 소지금에서 빠져나가고 잔액으로 충전
+  myMoney.innerText = `${myMoneyValue - putMoney.value}원`;
+  leftMoney.innerText = parseInt(putMoney.value);
+  putMoney.value = ""; // 입금액 입력 부분 비우기
+}
