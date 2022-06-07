@@ -129,6 +129,10 @@ function itemMoveInCart(item, event) {
     curItem.forEach((item, index) => {
       if (item.innerText == cart[cartIdx].name) {
         curCount[(item, index)].innerText = cart[cartIdx].count;
+        // 클릭한 상품이 계속 위로 올라오게
+        let temp = item.parentElement.parentElement;
+        temp.remove();
+        seletItems.prepend(temp);
       }
     });
   }
