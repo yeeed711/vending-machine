@@ -146,3 +146,31 @@ function itemMoveInCart(item, event) {
     }
   });
 }
+
+// 획득 버튼
+function getItemMove() {
+  let cartSum = 0;
+  for (let i = 0; i < cart.length; i++) {
+    cartSum += cart[i].count * cart[i].price;
+  }
+  // 카트에 아무것도 없을 경우
+  if (cart == "") {
+    alert("🧺 장바구니에 상품을 담아주세요!");
+    // 잔액이 없거나 소지금보다 많은 상품을 담았을 경우
+  } else if (leftMoney.innerText == "" || leftMoney.innerText < cartSum) {
+    alert("잔액이 부족합니다.");
+    return;
+    // 정상적이 계산
+  } else {
+    leftMoney.innerText -= cartSum;
+  }
+
+  // 카트에 들어있는 아이템을 획득 공간으로 이동
+  const cartList = seletItems.querySelectorAll("li");
+  const cartArr = [...cartList];
+  const getList = document.querySelector(".get-list");
+  getList.append(...cartArr);
+
+  totalPrice(); // 아이템 총 금액 계산함수 실행
+  cart = []; // 아이템 획득공간으로 이동후 카트를 비워준다
+}
