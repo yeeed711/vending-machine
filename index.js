@@ -46,3 +46,29 @@ const putBtn = document.querySelector(".put__btn"); // 입금 버튼
 const getBtn = document.querySelector(".get__btn"); // 획득 버튼
 const leftMoney = document.querySelector(".buy-balance span:first-child"); // 잔액
 const myMoney = document.querySelector(".mymoney__text"); // 소지금
+
+// cola item 렌더링 함수
+function rederColaItem() {
+  // 가상돔
+  const frag = document.createDocumentFragment();
+  dataBase.forEach((i) => {
+    const drinkItemLi = document.createElement("li");
+    const drinkItemBtn = document.createElement("button");
+    const drinkItemImg = document.createElement("img");
+    drinkItemBtn.setAttribute("class", "item__btn");
+    drinkItemImg.setAttribute("src", `${i.img}`);
+    const drinkItemTitle = document.createElement("strong");
+    drinkItemTitle.setAttribute("class", "item__title");
+    drinkItemTitle.innerText = `${i.name}`;
+    const drinkItemPrice = document.createElement("span");
+    drinkItemPrice.setAttribute("class", "price");
+    drinkItemPrice.innerText = `${i.price}원`;
+    drinkItemBtn.append(drinkItemImg, drinkItemTitle, drinkItemPrice);
+    drinkItemLi.append(drinkItemBtn);
+    drinkItems.append(drinkItemLi);
+    frag.append(drinkItemLi);
+  });
+  drinkItems.append(frag);
+}
+
+rederColaItem(); // cola item 렌더링
