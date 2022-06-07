@@ -227,3 +227,8 @@ function returnMoney() {
   }원`;
   leftMoney.innerText = 0;
 }
+
+// 이벤트 리스너 정리
+getBtn.addEventListener("click", getItemMove);
+putBtn.addEventListener("click", putMoney);
+returnBtn.addEventListener("click", returnMoney);
