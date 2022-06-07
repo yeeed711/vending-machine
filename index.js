@@ -219,7 +219,8 @@ function putMoney() {
   }
   // 입금액에 입력한 금액이 소지금에서 빠져나가고 잔액으로 충전
   myMoney.innerText = `${myMoneyValue - putMoney.value}원`;
-  leftMoney.innerText = parseInt(putMoney.value);
+  leftMoney.innerText =
+    parseInt(leftMoney.innerText) + parseInt(putMoney.value);
   putMoney.value = ""; // 입금액 입력 부분 비우기
 }
 
