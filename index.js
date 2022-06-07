@@ -218,3 +218,12 @@ function putMoney() {
   leftMoney.innerText = parseInt(putMoney.value);
   putMoney.value = ""; // 입금액 입력 부분 비우기
 }
+
+// 거스름돈 반환 함수
+function returnMoney() {
+  // 거스름돈 반환 버튼
+  myMoney.innerText = `${
+    parseInt(leftMoney.innerText) + parseInt(myMoney.innerText)
+  }원`;
+  leftMoney.innerText = 0;
+}
