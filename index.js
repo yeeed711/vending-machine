@@ -72,3 +72,77 @@ function rederColaItem() {
 }
 
 rederColaItem(); // cola item 렌더링
+
+// 렌더링된 아이템을 클릭 시
+let rederItems = drinkItems.querySelectorAll("li");
+rederItems.forEach((item) => {
+  item.addEventListener("click", (event) => {
+    // 아이템 재고가 품절이라면 품절 알림 표시
+    if (event.target.className == "item__btn sold-out") {
+      alert("품절입니다");
+    } else {
+      // 품절이 아니라면 장바구니에 아이템 추가
+      itemMoveInCart(item, event);
+    }
+  });
+});
+
+// 카트 빈 배열 생성
+let cart = [];
+
+// 자판기 아이템 클릭시 장바구니로 이동
+function itemMoveInCart(item, event) {
+  // 아이템 새로 생성
+  const drinkItemTitle = item.querySelector(".item__title").innerText;
+  const imgSrc = item.querySelector("img").src;
+  const cartItemLi = document.createElement("li");
+  const cartItemBtn = document.createElement("button");
+  const cartItemImg = document.createElement("img");
+  cartItemImg.className = "item__img";
+  cartItemImg.setAttribute("src", imgSrc);
+  const cartItemTitle = document.createElement("strong");
+  cartItemTitle.className = "item__title";
+  cartItemTitle.innerText = drinkItemTitle;
+  const cartItemCount = document.createElement("span");
+  cartItemCount.className = "num__counter";
+  cartItemCount.innerText = 1;
+  // 아이템 중복 검사결과를 변수에 저장
+  const cartIdx = cart.findIndex((item) => item.name == drinkItemTitle);
+
+  // 카트에 아무것도 없거나, 중복되는 아이템이 없을경우 아이템 추가
+  if (cartIdx == -1) {
+    cartItemBtn.append(cartItemImg, cartItemTitle, cartItemCount);
+    cartItemLi.append(cartItemBtn);
+    seletItems.prepend(cartItemLi);
+    // 카트에 객체형태로 담기
+    cart.push({
+      name: drinkItemTitle,
+      count: 1,
+      price: 1000,
+    });
+  } else {
+    // 카트에 중복상품이 있을 경우 카운트만 증가
+    cart[cartIdx].count++;
+    const curItem = seletItems.querySelectorAll(".item__title");
+    const curCount = seletItems.querySelectorAll(".num__counter");
+
+    curItem.forEach((item, index) => {
+      if (item.innerText == cart[cartIdx].name) {
+        curCount[(item, index)].innerText = cart[cartIdx].count;
+      }
+    });
+  }
+
+  // 재고수량이 0 이라면 품절 표시 추가
+  dataBase.forEach((item) => {
+    if (item.name == drinkItemTitle) {
+      if (item.count == 0) {
+        return;
+      }
+      item.count--;
+      if (item.count <= 0) {
+        event.target.setAttribute("class", "item__btn sold-out");
+      }
+    }
+  });
+}
