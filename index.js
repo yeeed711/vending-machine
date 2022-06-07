@@ -174,3 +174,21 @@ function getItemMove() {
   totalPrice(); // 아이템 총 금액 계산함수 실행
   cart = []; // 아이템 획득공간으로 이동후 카트를 비워준다
 }
+
+// 총 금액 변수 설정
+let sumTotal = 0;
+
+// 총 금액 계산 함수
+function totalPrice() {
+  let totalValue = 0;
+  // 카트에 담긴 아이템의 총 금액을 계산
+  cart.find((item) => {
+    totalValue += item.count * item.price;
+  });
+  sumTotal += totalValue;
+
+  // 총금액 표시
+  let totalMoney = document.querySelector(".total__title");
+  let total = sumTotal.toLocaleString("ko-KR");
+  totalMoney.innerHTML = `총금액 : ${total} 원`;
+}
