@@ -90,6 +90,7 @@ rederItems.forEach((item) => {
 // 카트 빈 배열 생성
 let cart = [];
 
+// 카트에 추가 될 Li 생성 함수
 function createCartItemLi(item, drinkItemTitle) {
   const imgSrc = item.querySelector("img").src;
   const cartItemLi = document.createElement("li");
@@ -110,9 +111,7 @@ function createCartItemLi(item, drinkItemTitle) {
 
 // 자판기 아이템 클릭시 장바구니로 이동
 function itemMoveInCart(item, event) {
-  // 아이템 새로 생성
   const drinkItemTitle = item.querySelector(".item__title").innerText;
-
   // 아이템 중복 검사결과를 변수에 저장
   const cartIdx = cart.findIndex((item) => item.name == drinkItemTitle);
   // 카트에 아무것도 없거나, 중복되는 아이템이 없을경우 아이템 추가
@@ -177,10 +176,9 @@ function getItemMove() {
   }
 
   // 카트에 들어있는 아이템을 획득 공간으로 이동
-
   const cartList = seletItems.querySelectorAll("li");
   cartList.forEach((item) => {
-    중복검사(item);
+    overlabCheck(item);
   });
 
   totalPrice(); // 아이템 총 금액 계산함수 실행
@@ -188,7 +186,7 @@ function getItemMove() {
 }
 
 //원범님 찬스 대박
-function 중복검사(item) {
+function overlabCheck(item) {
   const getList = document.querySelector(".get-list");
   const getListItems = getList.querySelectorAll("li");
   // 획득 공간에 아무것도 없을 때
