@@ -90,10 +90,7 @@ rederItems.forEach((item) => {
 // 카트 빈 배열 생성
 let cart = [];
 
-// 자판기 아이템 클릭시 장바구니로 이동
-function itemMoveInCart(item, event) {
-  // 아이템 새로 생성
-  const drinkItemTitle = item.querySelector(".item__title").innerText;
+function createCartItemLi(item, drinkItemTitle) {
   const imgSrc = item.querySelector("img").src;
   const cartItemLi = document.createElement("li");
   const cartItemBtn = document.createElement("button");
@@ -106,13 +103,21 @@ function itemMoveInCart(item, event) {
   const cartItemCount = document.createElement("span");
   cartItemCount.className = "num__counter";
   cartItemCount.innerText = 1;
+  cartItemBtn.append(cartItemImg, cartItemTitle, cartItemCount);
+  cartItemLi.append(cartItemBtn);
+  return cartItemLi;
+}
+
+// 자판기 아이템 클릭시 장바구니로 이동
+function itemMoveInCart(item, event) {
+  // 아이템 새로 생성
+  const drinkItemTitle = item.querySelector(".item__title").innerText;
+
   // 아이템 중복 검사결과를 변수에 저장
   const cartIdx = cart.findIndex((item) => item.name == drinkItemTitle);
-
   // 카트에 아무것도 없거나, 중복되는 아이템이 없을경우 아이템 추가
   if (cartIdx == -1) {
-    cartItemBtn.append(cartItemImg, cartItemTitle, cartItemCount);
-    cartItemLi.append(cartItemBtn);
+    const cartItemLi = createCartItemLi(item, drinkItemTitle);
     seletItems.prepend(cartItemLi);
     // 카트에 객체형태로 담기
     cart.push({
@@ -174,13 +179,35 @@ function getItemMove() {
   // 카트에 들어있는 아이템을 획득 공간으로 이동
 
   const cartList = seletItems.querySelectorAll("li");
-  const cartArr = [...cartList];
-  for (let i = 0; i < cartArr.length; i++) {
-    중복검사(cartArr[i]);
-  }
+  cartList.forEach((item) => {
+    중복검사(item);
+  });
 
   totalPrice(); // 아이템 총 금액 계산함수 실행
   cart = []; // 아이템 획득공간으로 이동후 카트를 비워준다
+}
+
+//원범님 찬스 대박
+function 중복검사(item) {
+  const getList = document.querySelector(".get-list");
+  const getListItems = getList.querySelectorAll("li");
+  // 획득 공간에 아무것도 없을 때
+  !getListItems.length && getList.append(item);
+  for (let i = 0; i < getListItems.length; i++) {
+    if (
+      // 같은 상품이 있을 때 카운트 추가
+      getListItems[i].childNodes[0].childNodes[1].innerText ==
+      item.querySelector(".item__title").innerText
+    ) {
+      getListItems[i].childNodes[0].childNodes[2].innerText =
+        parseInt(getListItems[i].childNodes[0].childNodes[2].innerText) +
+        parseInt(item.querySelector(".num__counter").innerText);
+      item.remove();
+      return;
+    } else {
+      getList.append(item);
+    }
+  }
 }
 
 // 총 금액 변수 설정
