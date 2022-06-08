@@ -193,14 +193,13 @@ function totalPrice() {
 
   // 총금액 표시
   let totalMoney = document.querySelector(".total__title");
-  let total = sumTotal.toLocaleString("ko-KR");
-  totalMoney.innerHTML = `총금액 : ${total} 원`;
+  totalMoney.innerHTML = `총금액 : ${sumTotal.toLocaleString("ko-KR")} 원`;
 }
 
 // 입금액 충전하는 함수
 function putMoney() {
   let putMoney = document.querySelector(".put__money");
-  myMoneyValue = parseInt(myMoney.innerText.slice(0, -1));
+  myMoneyValue = parseInt(myMoney.innerText.slice(0, -1).replace(",", ""));
   // 입금액에 아무 값도 넣지 않은 경우
   if (putMoney.value == "") {
     alert("입금액을 입력해주세요");
@@ -218,18 +217,21 @@ function putMoney() {
     return;
   }
   // 입금액에 입력한 금액이 소지금에서 빠져나가고 잔액으로 충전
-  myMoney.innerText = `${myMoneyValue - putMoney.value}원`;
-  leftMoney.innerText =
+  const myMoneyComma = myMoneyValue - putMoney.value;
+  myMoney.innerText = `${myMoneyComma.toLocaleString("ko-KR")}원`;
+  const leftMoneyComma =
     parseInt(leftMoney.innerText) + parseInt(putMoney.value);
+  leftMoney.innerText = leftMoneyComma.toLocaleString("ko-KR");
   putMoney.value = ""; // 입금액 입력 부분 비우기
 }
 
 // 거스름돈 반환 함수
 function returnMoney() {
   // 거스름돈 반환 버튼
-  myMoney.innerText = `${
-    parseInt(leftMoney.innerText) + parseInt(myMoney.innerText)
-  }원`;
+  const numToMyMoney = myMoney.innerText.replace(",", "");
+  const numToLeftMoney = leftMoney.innerText.replace(",", "");
+  const myMoneyComma = parseInt(numToLeftMoney) + parseInt(numToMyMoney);
+  myMoney.innerText = `${myMoneyComma.toLocaleString("ko-KR")}원`;
   leftMoney.innerText = 0;
 }
 
