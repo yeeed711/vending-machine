@@ -32,6 +32,7 @@
             type="number"
             placeholder="입금액 입력"
             class="put__money"
+            min="0"
           />
           <button type="button" class="put__btn">입금</button>
           <strong class="ir">선택한 음료 목록</strong>
@@ -45,13 +46,13 @@
         <div class="mymoney-info">
           <div class="mymoney">
             소지금 :
-            <span class="mymoney__text">30,000원</span>
+            <span class="mymoney__text"><span>30,000</span>원</span>
           </div>
         </div>
         <div class="get-item-info">
           <strong class="get-item__title">획득한 음료</strong>
           <ul class="drink-items get-list"></ul>
-          <strong class="total__title">총금액 : 0 원</strong>
+          <strong class="total__title">총금액 : <span>0</span> 원</strong>
         </div>
       </section>
     </main>

@@ -42,10 +42,10 @@ let dataBase = [
 const drinkItems = document.querySelector(".vending-items"); // 자판기 아이템 부분
 const seletItems = document.querySelector(".drink-items"); //카트 아이템 리스트
 const returnBtn = document.querySelector(".return__btn"); // 거스름돈 반환 버튼
+const leftMoney = document.querySelector(".buy-balance span:first-child"); // 잔액
 const putBtn = document.querySelector(".put__btn"); // 입금 버튼
 const getBtn = document.querySelector(".get__btn"); // 획득 버튼
-const leftMoney = document.querySelector(".buy-balance span:first-child"); // 잔액
-const myMoney = document.querySelector(".mymoney__text"); // 소지금
+const myMoney = document.querySelector(".mymoney__text span"); // 소지금
 
 // cola item 렌더링 함수
 function rederColaItem() {
@@ -164,16 +164,20 @@ function getItemMove() {
   } else if (leftMoney.innerText == "" || leftMoney.innerText < cartSum) {
     alert("잔액이 부족합니다.");
     return;
-    // 정상적이 계산
+    // 정상적인 계산
   } else {
-    leftMoney.innerText -= cartSum;
+    const numToleftMoney = toggleNumToString(leftMoney.innerText);
+    const leftMoneyComma = numToleftMoney - cartSum;
+    leftMoney.innerText = toggleNumToString(leftMoneyComma);
   }
 
   // 카트에 들어있는 아이템을 획득 공간으로 이동
+
   const cartList = seletItems.querySelectorAll("li");
   const cartArr = [...cartList];
-  const getList = document.querySelector(".get-list");
-  getList.append(...cartArr);
+  for (let i = 0; i < cartArr.length; i++) {
+    중복검사(cartArr[i]);
+  }
 
   totalPrice(); // 아이템 총 금액 계산함수 실행
   cart = []; // 아이템 획득공간으로 이동후 카트를 비워준다
@@ -192,14 +196,14 @@ function totalPrice() {
   sumTotal += totalValue;
 
   // 총금액 표시
-  let totalMoney = document.querySelector(".total__title");
-  totalMoney.innerHTML = `총금액 : ${sumTotal.toLocaleString("ko-KR")} 원`;
+  let totalMoney = document.querySelector(".total__title span");
+  totalMoney.innerHTML = toggleNumToString(sumTotal);
 }
 
 // 입금액 충전하는 함수
 function putMoney() {
   let putMoney = document.querySelector(".put__money");
-  myMoneyValue = parseInt(myMoney.innerText.slice(0, -1).replace(",", ""));
+  myMoneyValue = toggleNumToString(myMoney.innerText);
   // 입금액에 아무 값도 넣지 않은 경우
   if (putMoney.value == "") {
     alert("입금액을 입력해주세요");
@@ -218,20 +222,21 @@ function putMoney() {
   }
   // 입금액에 입력한 금액이 소지금에서 빠져나가고 잔액으로 충전
   const myMoneyComma = myMoneyValue - putMoney.value;
-  myMoney.innerText = `${myMoneyComma.toLocaleString("ko-KR")}원`;
   const leftMoneyComma =
-    parseInt(leftMoney.innerText) + parseInt(putMoney.value);
-  leftMoney.innerText = leftMoneyComma.toLocaleString("ko-KR");
+    toggleNumToString(leftMoney.innerText) + parseInt(putMoney.value);
+  console.log(leftMoneyComma);
+
+  myMoney.innerText = toggleNumToString(myMoneyComma);
+  leftMoney.innerText = toggleNumToString(leftMoneyComma);
   putMoney.value = ""; // 입금액 입력 부분 비우기
 }
 
 // 거스름돈 반환 함수
 function returnMoney() {
-  // 거스름돈 반환 버튼
-  const numToMyMoney = myMoney.innerText.replace(",", "");
-  const numToLeftMoney = leftMoney.innerText.replace(",", "");
+  const numToMyMoney = toggleNumToString(myMoney.innerText);
+  const numToLeftMoney = toggleNumToString(leftMoney.innerText);
   const myMoneyComma = parseInt(numToLeftMoney) + parseInt(numToMyMoney);
-  myMoney.innerText = `${myMoneyComma.toLocaleString("ko-KR")}원`;
+  myMoney.innerText = toggleNumToString(myMoneyComma);
   leftMoney.innerText = 0;
 }
 
@@ -239,3 +244,12 @@ function returnMoney() {
 getBtn.addEventListener("click", getItemMove);
 putBtn.addEventListener("click", putMoney);
 returnBtn.addEventListener("click", returnMoney);
+
+// number <-> string(세자리 숫자마다 콤마 넣어주기) 변환 함수
+function toggleNumToString(num) {
+  if (typeof 1 === typeof num) {
+    return num.toLocaleString("ko-KR");
+  } else if (typeof "str" === typeof num) {
+    return parseInt(num.replace(",", ""));
+  }
+}
