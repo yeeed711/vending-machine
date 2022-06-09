@@ -165,7 +165,10 @@ function getItemMove() {
   if (cart == "") {
     alert("🧺 장바구니에 상품을 담아주세요!");
     // 잔액이 없거나 소지금보다 많은 상품을 담았을 경우
-  } else if (leftMoney.innerText == "" || leftMoney.innerText < cartSum) {
+  } else if (
+    leftMoney.innerText == "" ||
+    toggleNumToString(leftMoney.innerText) < cartSum
+  ) {
     alert("잔액이 부족합니다.");
     return;
     // 정상적인 계산
@@ -249,7 +252,6 @@ function putMoney() {
   const myMoneyComma = myMoneyValue - putMoney.value;
   const leftMoneyComma =
     toggleNumToString(leftMoney.innerText) + parseInt(putMoney.value);
-  console.log(leftMoneyComma);
 
   myMoney.innerText = toggleNumToString(myMoneyComma);
   leftMoney.innerText = toggleNumToString(leftMoneyComma);
