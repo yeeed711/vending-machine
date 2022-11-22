@@ -1,3 +1,3 @@
-import App from './App.js';
+import ColaGenerator from './components/ColaGenerator.js';
 
-new App({ $app: document.querySelector('.App') });
+new ColaGenerator().setup();
