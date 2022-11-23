@@ -246,7 +246,7 @@ input[type='number']::-webkit-inner-spin-button {
 
 .sold-out::after {
     content: attr(data-after);
-    background-image: url('./img/sold_out.png');
+    background-image: url('../../assets/sold_out.png');
     background-position: center;
     background-size: cover;
     border-radius: 10px;
