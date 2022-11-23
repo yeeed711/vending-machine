@@ -1,5 +1,5 @@
 // 세자리마다 콤마
-export const formatter = (value) => {
+export const commaFormatter = (value) => {
     return new Intl.NumberFormat('ko').format(`${value}`);
 };
 

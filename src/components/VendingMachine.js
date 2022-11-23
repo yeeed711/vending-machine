@@ -1,5 +1,5 @@
 import { ACTION_KEY, VALID_BALANCE, VALID_INPUT_VALUE, VALID_MY_MONEY } from '../constants/index.js';
-import { createEl, selectEl, selectElAll, formatter, numberFormatter } from '../utils/index.js';
+import { createEl, selectEl, selectElAll, commaFormatter, numberFormatter } from '../utils/index.js';
 
 class VendingMachine {
     constructor() {
@@ -46,8 +46,8 @@ class VendingMachine {
             }
 
             if (inputValue <= myMoneyValue && inputValue > 0) {
-                this.$balance.textContent = formatter(balanceValue + inputValue);
-                this.$myMoney.textContent = formatter(myMoneyValue - inputValue);
+                this.$balance.textContent = commaFormatter(balanceValue + inputValue);
+                this.$myMoney.textContent = commaFormatter(myMoneyValue - inputValue);
                 this.$input.value = null;
             } else {
                 alert(VALID_MY_MONEY);
@@ -70,8 +70,8 @@ class VendingMachine {
                 }
 
                 if (inputValue <= myMoneyValue && inputValue > 0) {
-                    this.$balance.textContent = formatter(balanceValue + inputValue);
-                    this.$myMoney.textContent = formatter(myMoneyValue - inputValue);
+                    this.$balance.textContent = commaFormatter(balanceValue + inputValue);
+                    this.$myMoney.textContent = commaFormatter(myMoneyValue - inputValue);
                     this.$input.value = null;
                 } else {
                     alert(VALID_MY_MONEY);
@@ -89,7 +89,7 @@ class VendingMachine {
             if (balanceValue === 0) {
                 return;
             } else {
-                this.$myMoney.textContent = formatter(myMoneyValue + balanceValue);
+                this.$myMoney.textContent = commaFormatter(myMoneyValue + balanceValue);
                 this.$balance.textContent = +0;
             }
         });
@@ -132,7 +132,7 @@ class VendingMachine {
                 if (clickedItem.dataset.count === '0') {
                     clickedItem.classList.add('sold-out');
                 }
-                this.$balance.textContent = formatter(balanceValue - clickedItemprice);
+                this.$balance.textContent = commaFormatter(balanceValue - clickedItemprice);
             } else if (clickedItem.dataset.count === '0') {
                 return;
             } else {
@@ -200,7 +200,7 @@ class VendingMachine {
                 (item) => (total += parseInt(selectEl(item, '.num__counter').textContent) * item.dataset.price)
             );
 
-            this.$totalPrice.textContent = formatter(total);
+            this.$totalPrice.textContent = commaFormatter(total);
         });
     }
 }
