@@ -146,16 +146,18 @@ class VendingMachine {
 
     getItemsButton() {
         this.$getBtn.addEventListener('click', () => {
+            const selectList = selectElAll(this.$selectList, 'li');
+            const getList = selectElAll(this.$getList, 'li');
             // 아무것도 없는 상태일 때 불필요한 클릭이벤트 방지
-            if (!selectElAll(this.$selectList, 'li').length) return;
+            if (!selectList.length) return;
 
             //장바구니와 획득존상품 비교후 같은게 있다면 카운트 증가
 
-            for (const selectedItem of selectElAll(this.$selectList, 'li')) {
+            for (const selectedItem of selectList) {
                 let isGot = false;
                 // 획득한 음료가 한개 이상일 때 중복처리
-                if (selectElAll(this.$getList, 'li').length > 0) {
-                    for (const gotItem of selectElAll(this.$getList, 'li')) {
+                if (getList.length > 0) {
+                    for (const gotItem of getList) {
                         let gotItemCount = selectEl(gotItem, '.num__counter');
                         let selectedItemCount = selectEl(selectedItem, '.num__counter');
 
