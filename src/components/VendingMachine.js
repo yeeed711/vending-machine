@@ -138,6 +138,22 @@ class VendingMachine {
             }
         });
     }
+
+    clickedItemGenerator(item) {
+        const { img, name, price, count } = item.dataset;
+        const $li = createEl('li');
+        $li.setAttribute('data-name', `${name}`);
+        $li.setAttribute('data-price', `${price}`);
+        const template = ` 
+        <button>
+          <img class='item__img' src='${img}'/>
+            <strong class='item__title'>${name}</strong>
+          <span class='num__counter'>1</span>
+        </button>
+        `;
+        $li.insertAdjacentHTML('beforeend', template);
+        return $li;
+    }
 }
 
 export default VendingMachine;
