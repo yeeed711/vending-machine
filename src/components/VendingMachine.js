@@ -49,6 +49,31 @@ class VendingMachine {
                 return;
             }
         });
+        //enter event (사용자 경험 향상을 위해)
+        this.$input.addEventListener('keyup', (e) => {
+            if (e.key !== ACTION_KEY) {
+                return;
+            } else {
+                const inputValue = parseInt(this.$input.value); // type number
+                let myMoneyValue = parseInt(this.$myMoney.textContent.replace(',', '')); // type number
+                const balanceValue = parseInt(this.$balance.textContent.replace(',', '')); //type number
+                if (!inputValue) {
+                    alert(`입금액을 입력해주세요.`);
+                    this.$input.focus();
+                    return;
+                }
+
+                if (inputValue <= myMoneyValue && inputValue > 0) {
+                    this.$balance.textContent = formatter(balanceValue + inputValue);
+                    this.$myMoney.textContent = formatter(myMoneyValue - inputValue);
+                    this.$input.value = null;
+                } else {
+                    alert(`소지금이 부족합니다`);
+                    this.$input.focus();
+                    return;
+                }
+            }
+        });
     }
 }
 
