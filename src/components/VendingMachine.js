@@ -33,51 +33,38 @@ class VendingMachine {
         this.getItemsButton();
     }
 
+    moneyChanger() {
+        const inputValue = parseInt(this.$input.value); // type number
+        let myMoneyValue = numberFormatter(this.$myMoney.textContent);
+        const balanceValue = numberFormatter(this.$balance.textContent);
+        if (!inputValue) {
+            alert(VALID_INPUT_VALUE);
+            this.$input.focus();
+            return;
+        }
+
+        if (inputValue <= myMoneyValue && inputValue > 0) {
+            this.$balance.textContent = commaFormatter(balanceValue + inputValue);
+            this.$myMoney.textContent = commaFormatter(myMoneyValue - inputValue);
+            this.$input.value = null;
+        } else {
+            alert(VALID_MY_MONEY);
+            this.$input.focus();
+            return;
+        }
+    }
+
     //입금 버튼
     putInMoneyButton() {
         this.$putBtn.addEventListener('click', () => {
-            const inputValue = parseInt(this.$input.value); // type number
-            let myMoneyValue = numberFormatter(this.$myMoney.textContent);
-            const balanceValue = numberFormatter(this.$balance.textContent);
-            if (!inputValue) {
-                alert(VALID_INPUT_VALUE);
-                this.$input.focus();
-                return;
-            }
-
-            if (inputValue <= myMoneyValue && inputValue > 0) {
-                this.$balance.textContent = commaFormatter(balanceValue + inputValue);
-                this.$myMoney.textContent = commaFormatter(myMoneyValue - inputValue);
-                this.$input.value = null;
-            } else {
-                alert(VALID_MY_MONEY);
-                this.$input.focus();
-                return;
-            }
+            this.moneyChanger();
         });
         //키보드 Enter 입력 이벤트 (사용자 경험 향상을 위해)
         this.$input.addEventListener('keyup', (e) => {
             if (e.key !== ACTION_KEY) {
                 return;
             } else {
-                const inputValue = parseInt(this.$input.value); // type number
-                let myMoneyValue = numberFormatter(this.$myMoney.textContent);
-                const balanceValue = numberFormatter(this.$balance.textContent);
-                if (!inputValue) {
-                    alert(VALID_INPUT_VALUE);
-                    this.$input.focus();
-                    return;
-                }
-
-                if (inputValue <= myMoneyValue && inputValue > 0) {
-                    this.$balance.textContent = commaFormatter(balanceValue + inputValue);
-                    this.$myMoney.textContent = commaFormatter(myMoneyValue - inputValue);
-                    this.$input.value = null;
-                } else {
-                    alert(VALID_MY_MONEY);
-                    this.$input.focus();
-                    return;
-                }
+                this.moneyChanger();
             }
         });
     }
