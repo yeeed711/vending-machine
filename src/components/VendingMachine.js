@@ -1,5 +1,5 @@
 import { ACTION_KEY, VALID_BALANCE, VALID_INPUT_VALUE, VALID_MY_MONEY } from '../constants/index.js';
-import { createEl, selectEl, selectElAll, formatter } from '../utils/index.js';
+import { createEl, selectEl, selectElAll, formatter, numberFormatter } from '../utils/index.js';
 
 class VendingMachine {
     constructor() {
@@ -37,8 +37,8 @@ class VendingMachine {
     putInMoneyButton() {
         this.$putBtn.addEventListener('click', () => {
             const inputValue = parseInt(this.$input.value); // type number
-            let myMoneyValue = parseInt(this.$myMoney.textContent.replace(',', '')); // type number
-            const balanceValue = parseInt(this.$balance.textContent.replace(',', '')); //type number
+            let myMoneyValue = numberFormatter(this.$myMoney.textContent);
+            const balanceValue = numberFormatter(this.$balance.textContent);
             if (!inputValue) {
                 alert(VALID_INPUT_VALUE);
                 this.$input.focus();
@@ -61,8 +61,8 @@ class VendingMachine {
                 return;
             } else {
                 const inputValue = parseInt(this.$input.value); // type number
-                let myMoneyValue = parseInt(this.$myMoney.textContent.replace(',', '')); // type number
-                const balanceValue = parseInt(this.$balance.textContent.replace(',', '')); //type number
+                let myMoneyValue = numberFormatter(this.$myMoney.textContent);
+                const balanceValue = numberFormatter(this.$balance.textContent);
                 if (!inputValue) {
                     alert(VALID_INPUT_VALUE);
                     this.$input.focus();
@@ -84,8 +84,8 @@ class VendingMachine {
 
     returnMoneyButton() {
         this.$returnBtn.addEventListener('click', () => {
-            let myMoneyValue = parseInt(this.$myMoney.textContent.replace(',', '')); // type number
-            let balanceValue = parseInt(this.$balance.textContent.replace(',', '')); // type number
+            let myMoneyValue = numberFormatter(this.$myMoney.textContent);
+            let balanceValue = numberFormatter(this.$balance.textContent);
             if (balanceValue === 0) {
                 return;
             } else {
@@ -103,7 +103,7 @@ class VendingMachine {
             const selectedItems = selectElAll(this.$selectList, 'button');
             const clickedItemprice = parseInt(clickedItem.dataset.price);
             let isFirstClicked = false;
-            const balanceValue = parseInt(this.$balance.textContent.replace(',', '')); //type number
+            const balanceValue = numberFormatter(this.$balance.textContent);
 
             // 잔액이 클릭한 상품의 금액보다 많을 때만 실행
             if (balanceValue >= clickedItemprice) {
