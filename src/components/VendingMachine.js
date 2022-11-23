@@ -26,6 +26,7 @@ class VendingMachine {
 
     setEvent() {
         this.putInMoneyButton();
+        this.returnMoneyButton();
     }
 
     putInMoneyButton() {
@@ -72,6 +73,19 @@ class VendingMachine {
                     this.$input.focus();
                     return;
                 }
+            }
+        });
+    }
+
+    returnMoneyButton() {
+        this.$returnBtn.addEventListener('click', () => {
+            let myMoneyValue = parseInt(this.$myMoney.textContent.replace(',', '')); // type number
+            let balanceValue = parseInt(this.$balance.textContent.replace(',', '')); // type number
+            if (balanceValue === 0) {
+                return;
+            } else {
+                this.$myMoney.textContent = formatter(myMoneyValue + balanceValue);
+                this.$balance.textContent = +0;
             }
         });
     }
