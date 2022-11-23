@@ -3,10 +3,10 @@ import { createEl, createFrag, selectEl } from '../utils/dom.js';
 
 class ColaGenerator {
     constructor() {
-        this.$itemList = document.querySelector('.vending-items');
+        this.$itemList = selectEl(document, '.vending-items');
     }
 
-    setup() {
+    async setup() {
         this.fetch();
     }
 
@@ -31,14 +31,13 @@ class ColaGenerator {
           data-img='${item.img}'>
             <img src='${item.img}' alt=''/>
             <strong class='item__title'>${item.name}</strong>
-            <span class='price'>${item.price}</span>
+            <span class='price'>${item.price}원</span>
           </button>
           `;
             $li.insertAdjacentHTML('beforeend', template);
             $frag.appendChild($li);
         });
         this.$itemList.appendChild($frag);
-        console.log(this.$itemList);
     }
 }
 
