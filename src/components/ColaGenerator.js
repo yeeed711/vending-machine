@@ -7,7 +7,7 @@ class ColaGenerator {
     }
 
     async setup() {
-        this.fetch();
+        await this.fetch();
     }
 
     async fetch() {
