@@ -1,9 +1,9 @@
-import { ACTION_KEY } from '../constants/index.js';
-import { createEl, selectEl, selectElAll } from '../utils/dom.js';
-import { formatter } from '../utils/formatter.js';
+import { ACTION_KEY, VALID_BALANCE, VALID_INPUT_VALUE, VALID_MY_MONEY } from '../constants/index.js';
+import { createEl, selectEl, selectElAll, formatter } from '../utils/index.js';
 
 class VendingMachine {
     constructor() {
+        // 변수 초기화
         const $vendingSection = selectEl(document, '.vending-machine');
         this.$vendingItems = selectEl($vendingSection, '.vending-items'); // cola items
         this.$putBtn = selectEl($vendingSection, '.put__btn'); // 입금 버튼
@@ -20,10 +20,12 @@ class VendingMachine {
         this.$totalPrice = selectEl($myInfo, '.total__title span:first-child'); // 총 금액
     }
 
+    // 이벤트 바인딩
     setup() {
         this.setEvent();
     }
 
+    // 실행할 이벤트 지정
     setEvent() {
         this.putInMoneyButton();
         this.returnMoneyButton();
@@ -31,13 +33,14 @@ class VendingMachine {
         this.getItemsButton();
     }
 
+    //입금 버튼
     putInMoneyButton() {
         this.$putBtn.addEventListener('click', () => {
             const inputValue = parseInt(this.$input.value); // type number
             let myMoneyValue = parseInt(this.$myMoney.textContent.replace(',', '')); // type number
             const balanceValue = parseInt(this.$balance.textContent.replace(',', '')); //type number
             if (!inputValue) {
-                alert(`입금액을 입력해주세요.`);
+                alert(VALID_INPUT_VALUE);
                 this.$input.focus();
                 return;
             }
@@ -47,12 +50,12 @@ class VendingMachine {
                 this.$myMoney.textContent = formatter(myMoneyValue - inputValue);
                 this.$input.value = null;
             } else {
-                alert(`소지금이 부족합니다`);
+                alert(VALID_MY_MONEY);
                 this.$input.focus();
                 return;
             }
         });
-        //enter event (사용자 경험 향상을 위해)
+        //키보드 Enter 입력 이벤트 (사용자 경험 향상을 위해)
         this.$input.addEventListener('keyup', (e) => {
             if (e.key !== ACTION_KEY) {
                 return;
@@ -61,7 +64,7 @@ class VendingMachine {
                 let myMoneyValue = parseInt(this.$myMoney.textContent.replace(',', '')); // type number
                 const balanceValue = parseInt(this.$balance.textContent.replace(',', '')); //type number
                 if (!inputValue) {
-                    alert(`입금액을 입력해주세요.`);
+                    alert(VALID_INPUT_VALUE);
                     this.$input.focus();
                     return;
                 }
@@ -71,7 +74,7 @@ class VendingMachine {
                     this.$myMoney.textContent = formatter(myMoneyValue - inputValue);
                     this.$input.value = null;
                 } else {
-                    alert(`소지금이 부족합니다`);
+                    alert(VALID_MY_MONEY);
                     this.$input.focus();
                     return;
                 }
@@ -97,7 +100,6 @@ class VendingMachine {
             if (e.target.tagName === 'UL') return;
 
             const clickedItem = e.target.closest('button');
-            //const selectedItems = Array.from(this.$selectList.querySelectorAll('button'));
             const selectedItems = selectElAll(this.$selectList, 'button');
             const clickedItemprice = parseInt(clickedItem.dataset.price);
             let isFirstClicked = false;
@@ -127,7 +129,6 @@ class VendingMachine {
 
                 // 클릭한 상품 갯수 감소(품절처리를위해)
                 clickedItem.dataset.count--;
-                console.log(typeof clickedItem.dataset.count);
                 if (clickedItem.dataset.count === '0') {
                     clickedItem.classList.add('sold-out');
                 }
@@ -135,13 +136,13 @@ class VendingMachine {
             } else if (clickedItem.dataset.count === '0') {
                 return;
             } else {
-                alert(`잔액이 부족합니다`);
+                alert(VALID_BALANCE);
             }
         });
     }
 
     clickedItemGenerator(item) {
-        const { img, name, price, count } = item.dataset;
+        const { img, name, price } = item.dataset;
         const $li = createEl('li');
         $li.setAttribute('data-name', `${name}`);
         $li.setAttribute('data-price', `${price}`);
@@ -163,9 +164,8 @@ class VendingMachine {
 
             //장바구니와 획득존상품 비교후 같은게 있다면 카운트 증가
 
-            let isGot = false;
-
             for (const selectedItem of selectElAll(this.$selectList, 'li')) {
+                let isGot = false;
                 // 획득한 음료가 한개 이상일 때 중복처리
                 if (selectElAll(this.$getList, 'li').length > 0) {
                     for (const gotItem of selectElAll(this.$getList, 'li')) {
@@ -180,10 +180,10 @@ class VendingMachine {
                             break;
                         }
                         // 중복비교후 나머지 중복이 아닌 상품들 추가
-                        if (!isGot) {
-                            // (else문이 아닌 이유: 선택한 상품중에 중복된 상품외의 상품이 있을경우 추가를 안함)
-                            this.$getList.append(selectedItem);
-                        }
+                    }
+                    if (!isGot) {
+                        // (else문이 아닌 이유: 선택한 상품중에 중복된 상품외의 상품이 있을경우 추가를 안함)
+                        this.$getList.append(selectedItem);
                     }
                 } else {
                     // 획득한 음료가 아무것도 없을땐 무조건 추가
