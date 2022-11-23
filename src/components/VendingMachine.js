@@ -28,6 +28,7 @@ class VendingMachine {
         this.putInMoneyButton();
         this.returnMoneyButton();
         this.vandingMachinePanelClick();
+        this.getItemsButton();
     }
 
     putInMoneyButton() {
@@ -153,6 +154,54 @@ class VendingMachine {
         `;
         $li.insertAdjacentHTML('beforeend', template);
         return $li;
+    }
+
+    getItemsButton() {
+        this.$getBtn.addEventListener('click', () => {
+            // 아무것도 없는 상태일 때 불필요한 클릭이벤트 방지
+            if (!selectElAll(this.$selectList, 'li').length) return;
+
+            //장바구니와 획득존상품 비교후 같은게 있다면 카운트 증가
+
+            let isGot = false;
+
+            for (const selectedItem of selectElAll(this.$selectList, 'li')) {
+                // 획득한 음료가 한개 이상일 때 중복처리
+                if (selectElAll(this.$getList, 'li').length > 0) {
+                    for (const gotItem of selectElAll(this.$getList, 'li')) {
+                        let gotItemCount = selectEl(gotItem, '.num__counter');
+                        let selectedItemCount = selectEl(selectedItem, '.num__counter');
+
+                        // 선택한 음료와 획득한 음료를 비교, 같은 아이템을 찾으면 count 더해주기
+                        if (selectedItem.dataset.name === gotItem.dataset.name) {
+                            gotItemCount.textContent =
+                                parseInt(gotItemCount.textContent) + parseInt(selectedItemCount.textContent);
+                            isGot = true;
+                            break;
+                        }
+                        // 중복비교후 나머지 중복이 아닌 상품들 추가
+                        if (!isGot) {
+                            // (else문이 아닌 이유: 선택한 상품중에 중복된 상품외의 상품이 있을경우 추가를 안함)
+                            this.$getList.append(selectedItem);
+                        }
+                    }
+                } else {
+                    // 획득한 음료가 아무것도 없을땐 무조건 추가
+                    this.$getList.append(selectedItem);
+                }
+            }
+
+            // selected zone을 비워준다.
+            this.$selectList.innerHTML = null;
+
+            // 총 금액 계산
+            let total = 0;
+            selectElAll(this.$getList, 'li').forEach(
+                (item) => (total += parseInt(selectEl(item, '.num__counter').textContent) * item.dataset.price)
+            );
+
+            this.$totalPrice.textContent = formatter(total);
+        });
     }
 }
 
