@@ -124,6 +124,7 @@ class VendingMachine {
                 return;
             } else {
                 alert(VALID_BALANCE);
+                this.$input.focus();
             }
         });
     }
