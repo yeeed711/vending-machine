@@ -1,37 +1,37 @@
 [
     {
         "name": "Original_cola",
-        "img": "./assets/cola.svg",
+        "img": "./src/assets/cola.svg",
         "price": 1000,
         "count": 3
     },
     {
         "name": "Violet_cola",
-        "img": "./assets/violet_cola.svg",
+        "img": "./src/assets/violet_cola.svg",
         "price": 1000,
         "count": 3
     },
     {
         "name": "Yellow_cola",
-        "img": "./assets/yellow_cola.svg",
+        "img": "./src/assets/yellow_cola.svg",
         "price": 1000,
         "count": 3
     },
     {
         "name": "Cool_cola",
-        "img": "./assets/cool_cola.svg",
+        "img": "./src/assets/cool_cola.svg",
         "price": 1000,
         "count": 3
     },
     {
         "name": "Green_cola",
-        "img": "./assets/green_cola.svg",
+        "img": "./src/assets/green_cola.svg",
         "price": 1000,
         "count": 3
     },
     {
         "name": "Orange_cola",
-        "img": "./assets/orange_cola.svg",
+        "img": "./src/assets/orange_cola.svg",
         "price": 1000,
         "count": 3
     }
