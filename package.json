@@ -1,19 +1,21 @@
 {
   "name": "vending-machine",
   "version": "1.0.0",
-  "description": "## 기능 요구사항",
+  "description": "바닐라 타입스크립트로 구현한 자판기입니다.",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development --open",
-    "start": "webpack-dev-server --mode production --open"
+    "start": "webpack-dev-server --mode production --open",
+    "lint": "eslint ./src/**/*.ts",
+    "lint:fix": "tsc --noEmit && eslint --fix ./src/**/*.ts"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yeeed711/vending-machine.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "yeeed",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/yeeed711/vending-machine/issues"
