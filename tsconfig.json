@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.path.json",
+  "module": "ESNext",
+  "include": ["src/**/*", "src/custom.d.ts"],
+  "outDir": "./dist/js",
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "ESNext"],
+    "allowJs": true,
+    "checkJs": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "isolatedModules": true
+  }
+}
