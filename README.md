@@ -18,7 +18,7 @@ npm run start
 
 ### 2. Class로 구현해보기
 
-- [Class로 다시 구현해보는 밴딩머신](https://github.com/yeeed711/vending-machine/pull/2)
+- [Class로 다시 구현해보는 밴딩머신](https://github.com/yeeed711/vending-machine/tree/81c2bed4bb3abbc19f87c7be2ba6ce77474a44f2)
   - dom 조작 및 utils 함수들 분리
   - 전반적인 디렉토리 구조 재조정
 
@@ -42,20 +42,20 @@ npm run start
 
   - copy-webpack-plugin
   - html-webpack-plugin
-  - json-minimizer-webpack-plugin
   - mini-css-extract-plugin
+  - json-minimizer-webpack-plugin
   - tsconfig-paths-webpack-plugin
 
 - **Babel**
 
   - @babel/core
-  - @babel/plugin-proposal-class-properties
   - @babel/preset-env
+  - @babel/plugin-proposal-class-properties
   - @babel/preset-typescript
   - core-js
   - whatwg-fetch
 
-- **scss**
+- **SCSS**
 
   - sass
   - sass-loader
