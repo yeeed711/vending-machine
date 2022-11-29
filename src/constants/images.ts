@@ -1,0 +1,7 @@
+export { default as cola } from '../assets/images/cola.svg'
+export { default as cool_cola } from '../assets/images/cool_cola.svg'
+export { default as green_cola } from '../assets/images/green_cola.svg'
+export { default as orange_cola } from '../assets/images/orange_cola.svg'
+export { default as violet_cola } from '../assets/images/violet_cola.svg'
+export { default as yellow_cola } from '../assets/images/yellow_cola.svg'
+export { default as Logo_img } from '../assets/images/Logo_img.png'
