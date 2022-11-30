@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/yeeed711/vending-machine/issues"
   },
-  "homepage": "https://github.com/yeeed711/vending-machine#readme",
+  "homepage": "https://github.com/yeeed711/vending-machine",
   "devDependencies": {
     "@babel/core": "^7.17.8",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
