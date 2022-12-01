@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "core-js": "^3.21.1",
+    "gh-pages": "^4.0.0",
     "whatwg-fetch": "^3.6.2"
   }
 }
